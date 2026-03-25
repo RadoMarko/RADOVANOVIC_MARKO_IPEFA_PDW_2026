@@ -1,0 +1,31 @@
+{
+  "name": "radovanovic_marko_ipefa_pdw_2026_p1",
+  "version": "1.0.0",
+  "description": "Project 1",
+  "homepage": "https://gitlab.com/rado_marko/ipefa_pdw_2026/radovanovic_marko_ipefa_pdw_2026_p1#readme",
+  "bugs": {
+    "url": "https://gitlab.com/rado_marko/ipefa_pdw_2026/radovanovic_marko_ipefa_pdw_2026_p1/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/rado_marko/ipefa_pdw_2026/radovanovic_marko_ipefa_pdw_2026_p1.git"
+  },
+  "license": "ISC",
+  "author": "Radovanovic Marko",
+  "type": "commonjs",
+  "main": "main.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "hello": "echo \"Hello World !\" && exit 0",
+    "start": "node build/main.js",
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q build/main.js\"",
+    "build": "npx tsc"
+  },
+  "devDependencies": {
+    "@types/node": "25.5.0",
+    "concurrently": "^9.2.1",
+    "nodemon": "^3.1.14",
+    "ts-node": "^10.9.2",
+    "typescript": "6.0.2"
+  }
+}
