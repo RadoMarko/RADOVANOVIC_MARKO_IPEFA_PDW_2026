@@ -1,0 +1,37 @@
+<main class="dashboard-shell">
+  <section class="dashboard-panel">
+    <header>
+      <div>
+        <span class="eyebrow">Tableau de bord</span>
+        <h1>Utilisateur connecté</h1>
+      </div>
+      <button type="button" (click)="logout()">Déconnexion</button>
+    </header>
+
+    <p class="error" *ngIf="errorMessage.length > 0">{{ errorMessage }}</p>
+    <p *ngIf="loading">Chargement...</p>
+
+    <dl *ngIf="service.connectedUser() as user">
+      <div>
+        <dt>Nom d'utilisateur</dt>
+        <dd>{{ user.username }}</dd>
+      </div>
+      <div>
+        <dt>E-mail</dt>
+        <dd>{{ user.mail }}</dd>
+      </div>
+      <div>
+        <dt>Identifiant</dt>
+        <dd>{{ user.credential_id }}</dd>
+      </div>
+      <div>
+        <dt>Actif</dt>
+        <dd>{{ user.active ? 'Oui' : 'Non' }}</dd>
+      </div>
+    </dl>
+
+    <button class="refresh" type="button" (click)="refresh()">
+      Refresh token
+    </button>
+  </section>
+</main>
