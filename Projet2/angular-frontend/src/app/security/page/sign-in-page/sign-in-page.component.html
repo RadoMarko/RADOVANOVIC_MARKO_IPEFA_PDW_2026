@@ -1,0 +1,54 @@
+<main class="auth-shell">
+  <section class="auth-panel">
+    <div class="title-area">
+      <span class="eyebrow">Clinical Study Manager</span>
+      <h1>{{ mode === 'signin' ? 'Se connecter' : "S'inscrire" }}</h1>
+      <p>
+        {{
+          mode === 'signin'
+            ? 'Connecte-toi pour gérer tes études cliniques'
+            : 'Crée un compte pour gérer tes études cliniques'
+        }}
+      </p>
+    </div>
+
+    <div class="mode-switch">
+      <button type="button" [class.active]="mode === 'signin'" (click)="switchMode('signin')">
+        Se connecter
+      </button>
+      <button type="button" [class.active]="mode === 'signup'" (click)="switchMode('signup')">
+        S'inscrire
+      </button>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <label>
+        <span>Nom d'utilisateur</span>
+        <input formControlName="username" autocomplete="username" />
+      </label>
+
+      <label>
+        <span>Mot de passe</span>
+        <input
+          formControlName="password"
+          type="password"
+          [autocomplete]="mode === 'signin' ? 'current-password' : 'new-password'"
+        />
+        <small *ngIf="mode === 'signup'">
+          Minimum 8 caractères, avec au moins une majuscule, un chiffre et un caractère spécial.
+        </small>
+      </label>
+
+      <label *ngIf="mode === 'signup'">
+        <span>E-mail</span>
+        <input formControlName="mail" type="email" autocomplete="email" />
+      </label>
+
+      <p class="error" *ngIf="errorMessage.length > 0">{{ errorMessage }}</p>
+
+      <button class="submit" type="submit" [disabled]="loading">
+        {{ loading ? 'Veuillez patienter...' : 'Valider' }}
+      </button>
+    </form>
+  </section>
+</main>

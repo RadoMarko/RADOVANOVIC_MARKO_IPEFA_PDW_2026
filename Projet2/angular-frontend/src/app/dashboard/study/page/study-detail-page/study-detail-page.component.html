@@ -1,0 +1,64 @@
+<main class="detail-shell">
+  <section class="detail-panel">
+    <header class="page-header">
+      <div>
+        <span class="eyebrow">Clinical Study Manager</span>
+        <h1>Modifier l'étude</h1>
+      </div>
+      <a routerLink="/dashboard/studies">Retour à la liste</a>
+    </header>
+
+    <p class="error" *ngIf="errorMessage().length > 0 && !study()">{{ errorMessage() }}</p>
+    <p *ngIf="loading()">Chargement...</p>
+
+    <form [formGroup]="form" (ngSubmit)="update()" *ngIf="study() as currentStudy">
+      <label>
+        Nom
+        <input type="text" formControlName="name" />
+      </label>
+
+      <label>
+        Code
+        <input type="text" [value]="codeLabel(currentStudy.code)" readonly />
+      </label>
+
+      <label>
+        Statut
+        <select formControlName="status">
+          <option *ngFor="let status of statuses" [value]="status">
+            {{ statusLabel(status) }}
+          </option>
+        </select>
+      </label>
+
+      <label>
+        Date de début
+        <input type="date" formControlName="startDate" [min]="minDate" [max]="maxDate" />
+      </label>
+
+      <label>
+        Date de fin
+        <input
+          type="date"
+          formControlName="endDate"
+          [min]="form.controls.startDate.value || minDate"
+          [max]="maxDate"
+        />
+      </label>
+
+      <label class="full">
+        Description
+        <textarea rows="5" formControlName="description"></textarea>
+      </label>
+
+      <p class="error full" *ngIf="errorMessage().length > 0">{{ errorMessage() }}</p>
+
+      <div class="actions">
+        <button type="submit" [disabled]="loading()">Enregistrer</button>
+        <button class="danger" type="button" [disabled]="loading()" (click)="delete()">
+          Supprimer
+        </button>
+      </div>
+    </form>
+  </section>
+</main>

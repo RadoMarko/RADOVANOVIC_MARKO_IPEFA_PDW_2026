@@ -1,0 +1,51 @@
+<main class="study-shell">
+  <section class="study-panel">
+    <header class="page-header">
+      <div>
+        <span class="eyebrow">Clinical Study Manager</span>
+        <h1>Études cliniques</h1>
+      </div>
+      <a routerLink="/dashboard">Retour</a>
+    </header>
+
+    <p class="error" *ngIf="errorMessage().length > 0">{{ errorMessage() }}</p>
+
+    <section class="list-section" aria-label="Liste des études cliniques">
+      <div class="section-title">
+        <h2>Liste</h2>
+        <div class="section-actions">
+          <a routerLink="/dashboard/studies/create">Ajouter une étude</a>
+          <button class="secondary" type="button" (click)="loadStudies()">Actualiser</button>
+        </div>
+      </div>
+
+      <p *ngIf="loading()">Chargement...</p>
+      <p *ngIf="!loading() && studies().length === 0">Aucune étude encodée.</p>
+
+      <table *ngIf="studies().length > 0">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Nom</th>
+            <th>Statut</th>
+            <th>Date de début</th>
+            <th>Date de fin</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let study of studies()">
+            <td>{{ codeLabel(study.code) }}</td>
+            <td>{{ study.name }}</td>
+            <td>{{ statusLabel(study.status) }}</td>
+            <td>{{ dateLabel(study.startDate) }}</td>
+            <td>{{ dateLabel(study.endDate) }}</td>
+            <td>
+              <a [routerLink]="['/dashboard/studies', study.study_id]">Modifier</a>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </section>
+</main>

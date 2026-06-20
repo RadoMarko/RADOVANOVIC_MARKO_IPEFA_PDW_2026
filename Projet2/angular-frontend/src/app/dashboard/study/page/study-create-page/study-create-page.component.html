@@ -1,0 +1,51 @@
+<main class="study-shell">
+  <section class="study-panel">
+    <header class="page-header">
+      <div>
+        <span class="eyebrow">Clinical Study Manager</span>
+        <h1>Ajouter une étude</h1>
+      </div>
+      <a routerLink="/dashboard/studies">Retour à la liste</a>
+    </header>
+
+    <form [formGroup]="form" (ngSubmit)="create()">
+      <label>
+        Nom
+        <input type="text" formControlName="name" />
+      </label>
+
+      <label>
+        Statut
+        <select formControlName="status">
+          <option *ngFor="let status of statuses" [value]="status">
+            {{ statusLabel(status) }}
+          </option>
+        </select>
+      </label>
+
+      <label>
+        Date de début
+        <input type="date" formControlName="startDate" [min]="minDate" [max]="maxDate" />
+      </label>
+
+      <label>
+        Date de fin
+        <input
+          type="date"
+          formControlName="endDate"
+          [min]="form.controls.startDate.value || minDate"
+          [max]="maxDate"
+        />
+      </label>
+
+      <label class="full">
+        Description
+        <textarea rows="5" formControlName="description"></textarea>
+      </label>
+
+      <p class="error full" *ngIf="errorMessage().length > 0">{{ errorMessage() }}</p>
+
+      <button type="submit" [disabled]="loading()">Créer</button>
+    </form>
+  </section>
+</main>

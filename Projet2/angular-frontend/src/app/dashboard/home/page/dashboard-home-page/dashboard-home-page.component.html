@@ -1,0 +1,87 @@
+<main class="dashboard-shell">
+  <section class="dashboard-panel">
+    <header>
+      <div>
+        <span class="eyebrow">Tableau de bord</span>
+        <h1>Clinical Study Manager</h1>
+      </div>
+      <button type="button" (click)="logout()">Déconnexion</button>
+    </header>
+
+    <p class="error" *ngIf="errorMessage.length > 0">{{ errorMessage }}</p>
+    <p *ngIf="loading">Chargement...</p>
+
+    <dl *ngIf="service.connectedUser() as user">
+      <div>
+        <dt>Nom d'utilisateur</dt>
+        <dd>{{ user.username }}</dd>
+      </div>
+      <div>
+        <dt>E-mail</dt>
+        <dd>{{ user.mail }}</dd>
+      </div>
+      <div>
+        <dt>Actif</dt>
+        <dd>{{ user.active ? 'Oui' : 'Non' }}</dd>
+      </div>
+    </dl>
+
+    <nav class="dashboard-nav">
+      <a routerLink="/dashboard/studies">Gérer les études cliniques</a>
+      <button type="button" (click)="openPasswordDialog()">Modifier le mot de passe</button>
+    </nav>
+
+    <details class="account-section token-section">
+      <summary>Token de session</summary>
+      <label>
+        Token actif
+        <textarea class="token-box" readonly rows="4">{{ service.getToken() }}</textarea>
+      </label>
+
+      <p class="success" *ngIf="tokenSuccessMessage.length > 0">{{ tokenSuccessMessage }}</p>
+      <p class="error" *ngIf="tokenErrorMessage.length > 0">{{ tokenErrorMessage }}</p>
+
+      <button type="button" [disabled]="tokenLoading" (click)="refreshTokens()">
+        {{ tokenLoading ? 'Veuillez patienter...' : 'Refresh token' }}
+      </button>
+    </details>
+  </section>
+
+  <section class="modal-backdrop" *ngIf="passwordDialogOpen" (click)="closePasswordDialog()">
+    <div class="modal" role="dialog" aria-modal="true" (click)="$event.stopPropagation()">
+      <header>
+        <div>
+          <span class="eyebrow">Compte utilisateur</span>
+          <h2>Modifier le mot de passe</h2>
+        </div>
+        <button class="secondary" type="button" (click)="closePasswordDialog()">Fermer</button>
+      </header>
+
+      <form [formGroup]="passwordForm" (ngSubmit)="changePassword()">
+        <label>
+          Ancien mot de passe
+          <input type="password" formControlName="oldPassword" autocomplete="current-password" />
+        </label>
+
+        <label>
+          Nouveau mot de passe
+          <input type="password" formControlName="newPassword" autocomplete="new-password" />
+          <small>
+            Minimum 8 caractères, avec au moins une majuscule, un chiffre et un caractère spécial.
+          </small>
+        </label>
+
+        <p class="success" *ngIf="passwordSuccessMessage.length > 0">
+          {{ passwordSuccessMessage }}
+        </p>
+        <p class="error" *ngIf="passwordErrorMessage.length > 0">
+          {{ passwordErrorMessage }}
+        </p>
+
+        <button type="submit" [disabled]="passwordLoading">
+          {{ passwordLoading ? 'Veuillez patienter...' : 'Enregistrer' }}
+        </button>
+      </form>
+    </div>
+  </section>
+</main>
